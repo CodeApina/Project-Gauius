@@ -3,3 +3,7 @@ Temp/
 UserSettings/
 Logs/
 Library/
+obj/
+.vs/
+.vsconfig
+Assembly-CSharp.csproj
