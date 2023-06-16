@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Enemy;
 
 public class Projectile_Behaviour : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Projectile_Behaviour : MonoBehaviour
                 int damage = GameManager.Instance.player_damage.Damage_Calculation();
                 enemy.Enemy_Takes_Damage(damage);
             }
+            
         }
         Destroy(gameObject);
     }

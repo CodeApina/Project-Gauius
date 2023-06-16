@@ -31,7 +31,7 @@ public class Unit_Health
         current_regen=regen;
     }
 
-    public void Damage_Unit(int damage)
+    public void Damage_Unit(float damage)
     {
         if(current_health > 0)
         {
@@ -41,6 +41,7 @@ public class Unit_Health
         {
             current_health = 0;
         }
+        Debug.Log("Takes Damage: " + damage + current_health);
     }
     public void Heal_Unit(float heal_amount)
     {
