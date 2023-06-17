@@ -8,13 +8,15 @@ namespace Character
     public class Character_Controller : MonoBehaviour
     {
         public float move_speed = 5f;
-        private Vector2 target;
+        public Vector2 target;
         private Vector2 aim_target;
         public float attack_speed = 1.5f;
         public bool can_attack = true;
         public Rigidbody2D rb;
         public Weapon weapon;
         private bool moving;
+        private bool movement_ability_active = false;
+        private float movement_ability_speed;
         // Start is called before the first frame update
         void Start()
         {
@@ -31,9 +33,9 @@ namespace Character
         // Update is called once per frame
         void Update()
         {
-            if (GameManager.Instance.player_alive == true)
+            aim_target = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+            if (GameManager.Instance.player_alive && !movement_ability_active)
             {
-                aim_target = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
                 if (Input.GetMouseButton(0))
                 {
                     target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -62,6 +64,14 @@ namespace Character
             Vector2 aim_direction = aim_target;
             float aim_angle = Mathf.Atan2(aim_direction.y, aim_direction.x) * Mathf.Rad2Deg - 90f;
             rb.rotation = aim_angle;
+            if (movement_ability_active)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, target, movement_ability_speed * Time.deltaTime);
+                if ((Vector2)transform.position == target)
+                {
+                    movement_ability_active = false;
+                }
+            }
 
         }
         public void Teleport()
@@ -72,7 +82,8 @@ namespace Character
         public void Movement_Ability(float speed)
         {
             target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
+            movement_ability_active = true;
+            movement_ability_speed = speed;
         }
 
         private IEnumerator Attack_Delay()

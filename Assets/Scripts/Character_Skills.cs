@@ -16,14 +16,6 @@ namespace Character
             active,
             cooldown
         }
-        public Character_Skills(Skills_Scriptable_Object skill, float duration, float cooldown, Skill_State state, KeyCode key)
-        {
-            this.skill = skill;
-            this.duration = duration;
-            this.cooldown = cooldown;
-            this.state = state;
-            this.key = key;
-        }
         Skill_State state = Skill_State.ready;
 
         
