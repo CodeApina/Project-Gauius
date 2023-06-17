@@ -9,14 +9,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 036945959df345146802a8c8cbc5f860, type: 3}
-  m_Name: dash
+  m_Script: {fileID: 11500000, guid: 3e6256c9f51e2e947bc6feb491850990, type: 3}
+  m_Name: Ranged_attack
   m_EditorClassIdentifier: 
-  skill_name: Dash
+  skill_name: Ranged Attack
   skill_description: asd
   skill_sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   skill_audio: {fileID: 0}
   base_mana_cost: 10
-  base_cooldown: 1
+  base_cooldown: 2
   base_duration: 0.5
-  velocity: 30
+  min_base_damage: 5
+  max_base_damage: 10
+  base_crit_chance: 10
+  base_crit_multiplier: 2
+  base_attack_speed: 1.5
+  damage_type: Physical
+  fire_force: 40
+  projectile_prefab: {fileID: 1816460823585471275, guid: 538ab9e5712597f4c93bb673d532737b, type: 3}

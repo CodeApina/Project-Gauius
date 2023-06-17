@@ -12,6 +12,8 @@ namespace Character
         private Vector2 aim_target;
         public float attack_speed = 1.5f;
         public bool can_attack = true;
+        [HideInInspector] public float fire_force = 40f;
+        [HideInInspector] public GameObject projectile_prefab;
         public Rigidbody2D rb;
         public Weapon weapon;
         private bool moving;
@@ -24,17 +26,17 @@ namespace Character
         }
         private void OnEnable()
         {
-            Character_Behaviour.On_Player_Death += Handle_RB_On_Player_Death;
+            Character_Behaviour.On_Character_Death += Handle_RB_On_Character_Death;
         }
         private void OnDisable()
         {
-            Character_Behaviour.On_Player_Death -= Handle_RB_On_Player_Death;
+            Character_Behaviour.On_Character_Death -= Handle_RB_On_Character_Death;
         }
         // Update is called once per frame
         void Update()
         {
             aim_target = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-            if (GameManager.Instance.player_alive && !movement_ability_active)
+            if (GameManager.Instance.character_alive && !movement_ability_active)
             {
                 if (Input.GetMouseButton(0))
                 {
@@ -51,7 +53,7 @@ namespace Character
                 {
                     if (can_attack)
                     {
-                        weapon.Fire();
+                        weapon.Fire(projectile_prefab, fire_force);
                         can_attack = false;
                         StartCoroutine(Attack_Delay());
                     }
@@ -93,7 +95,7 @@ namespace Character
         }
 
 
-        void Handle_RB_On_Player_Death(Character_Behaviour player)
+        void Handle_RB_On_Character_Death(Character_Behaviour character)
         {
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }

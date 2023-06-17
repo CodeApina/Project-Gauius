@@ -1,19 +1,24 @@
 using Character;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Animations;
 
-[CreateAssetMenu(fileName = "Skills_Scriptable_Object", menuName = "Scriptable_objects/Movement Skill")]
+[CreateAssetMenu(fileName = "Movement_Skill_Scriptable_Object", menuName = "Scriptable_objects/Movement Skill")]
 public class Movement_Scriptable_Object : Skills_Scriptable_Object
 {
-   public float velocity;
-
-   public override void Activate(GameObject parent)
+    public float velocity;
+    private Character_Controller controller;
+    public override void Innitialize(GameObject parent)
     {
-        if (GameManager.Instance.player_alive)
+        if (GameManager.Instance.character_alive)
         {
-            Character_Controller controller = parent.GetComponent<Character_Controller>();
-            controller.Movement_Ability(velocity);
+            controller = parent.GetComponent<Character_Controller>();
+            
         }
         
+    }
+    public override void Trigger_Skill()
+    {
+        controller.Movement_Ability(velocity);
     }
 }

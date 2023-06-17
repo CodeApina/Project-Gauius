@@ -11,7 +11,7 @@ public class Enemy_Scriptable_Object : ScriptableObject
     public float crit_chance;
     public float health_regen;
     public int xp_reward;
-    public float speed;
+    public float move_speed;
     public int level;
     public float aggro_distance;
     public Enemy_Attack_Scriptable_Object enemy_attack_type;

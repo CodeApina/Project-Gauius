@@ -35,7 +35,7 @@ namespace Character
         }
         public void Level_Up()
         {
-            var player_damage = GameManager.Instance.player_damage;
+            var player_damage = GameManager.Instance.character_damage;
             player_damage.damage_min = player_damage.damage_min * current_level;
             player_damage.damage_max = player_damage.damage_max * current_level;
         }

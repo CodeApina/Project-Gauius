@@ -6,10 +6,11 @@ namespace Character
 {
     public class Character_Skills : MonoBehaviour
     {
+        public string skill_button;
         public Skills_Scriptable_Object skill;
         public float duration;
         public float cooldown;
-        public KeyCode key;
+
         public enum Skill_State
         {
             ready,
@@ -24,9 +25,9 @@ namespace Character
             switch (state)
             {
                 case Skill_State.ready:
-                    if (Input.GetKey(key))
+                    if (Keybinding_Manager.Instance.Get_Key_Down(Keybinding_Actions.Skill5))
                     {
-                        skill.Activate(gameObject);
+                        skill.Innitialize(gameObject);
                         state = Skill_State.active;
                     }
                     break;

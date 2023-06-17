@@ -1,14 +1,16 @@
 using UnityEngine;
+using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "Skills_Scriptable_Object", menuName = "Scriptable_objects/Skill")]
-public class Skills_Scriptable_Object : ScriptableObject
+public  abstract class Skills_Scriptable_Object : ScriptableObject
 {
+    public string skill_name;
+    public string skill_description;
+    public Sprite skill_sprite;
+    public AudioClip skill_audio;
     public float base_mana_cost;
     public float base_cooldown;
     public float base_duration;
 
-    public virtual void Activate(GameObject parent)
-    {
-
-    }
+    public abstract void Innitialize(GameObject parent);
+    public abstract void Trigger_Skill();
 }

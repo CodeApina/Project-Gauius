@@ -20,7 +20,7 @@ MonoBehaviour:
   crit_chance: 10
   health_regen: 2.5
   xp_reward: 10
-  speed: 2
+  move_speed: 4
   level: 1
-  aggro_distance: 1
+  aggro_distance: 10
   enemy_attack_type: {fileID: 11400000, guid: 9efb7d0e407bef64fa0a4eb36c2e7497, type: 2}
