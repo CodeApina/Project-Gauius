@@ -1,4 +1,3 @@
-Livrary/
 Temp/
 UserSettings/
 Logs/
@@ -7,3 +6,5 @@ obj/
 .vs/
 .vsconfig
 Assembly-CSharp.csproj
+*.csproj
+*.sln
