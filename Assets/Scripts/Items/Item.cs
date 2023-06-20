@@ -260,10 +260,59 @@ public class Item
                 int modifier_chooser = UnityEngine.Random.Range(0, modifiers_that_fit.Count);
                 if (modifier_chooser >= 0 && modifier_chooser <= modifiers_that_fit.Count - 1)
                 {
+                    int modifier_rank;
                     Item_Modifiers_Scriptable_Object modifier = modifiers_that_fit[modifier_chooser];
-                    float modifier_rank = item_being_generated.level;
+                    Weighted_Rolls.Int_Weights rank_one = new Weighted_Rolls.Int_Weights(1, 1);
+                    Weighted_Rolls.Int_Weights rank_two = new Weighted_Rolls.Int_Weights(2, 1);
+                    Weighted_Rolls.Int_Weights rank_three = new Weighted_Rolls.Int_Weights(3, 1);
+                    Weighted_Rolls.Int_Weights rank_four = new Weighted_Rolls.Int_Weights(4, 1);
+                    Weighted_Rolls.Int_Weights rank_five = new Weighted_Rolls.Int_Weights(5, 1);
+                    Weighted_Rolls.Int_Weights[] weights =
+                    {
+                        rank_one,rank_two,rank_three,rank_four,rank_five
+                    };
+                    switch (item_being_generated.level)
+                    {
+                        case <= 25:
+                            rank_one.weight = 50;
+                            rank_two.weight = 25;
+                            rank_three.weight = 10;
+                            rank_four.weight = 5;
+                            rank_five.weight = 1;
+                            modifier_rank = rolls.Weighted_Int(weights).int_;
+                            break;
+                        case <= 50:
+                            rank_one.weight = 20;
+                            rank_two.weight = 55;
+                            rank_three.weight = 20;
+                            rank_four.weight = 10;
+                            rank_five.weight = 4;
+                            modifier_rank = rolls.Weighted_Int(weights).int_;
+                            break;
+                        case <= 75:
+                            rank_one.weight = 10;
+                            rank_two.weight = 30;
+                            rank_three.weight = 50;
+                            rank_four.weight = 25;
+                            rank_five.weight = 10;
+                            modifier_rank = rolls.Weighted_Int(weights).int_;
+                            break;
+                        case <= 100:
+                            rank_one.weight = 5;
+                            rank_two.weight = 15;
+                            rank_three.weight = 30;
+                            rank_four.weight = 50;
+                            rank_five.weight = 25;
+                            modifier_rank = rolls.Weighted_Int(weights).int_;
+                            break;
+                        default:
+                            modifier_rank = 0;
+                            Debug.Log("Error rarity asignment failed");
+                            break;
+                    }
                     float value = UnityEngine.Random.Range(modifier.min_value * modifier_rank, modifier.max_value * modifier_rank);
                     Item_Modifier current_modifier = new Item_Modifier(modifier_rank, modifier.tags, modifier.affected_atribute, modifier.name, value, modifier.max_value * modifier_rank, modifier.min_value * modifier_rank); ;
+                    
                     item_being_generated.modifiers.Add(current_modifier);
                     modifiers_that_fit.Remove(modifier);
                 }
