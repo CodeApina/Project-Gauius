@@ -15,19 +15,35 @@ namespace Character
         public static event Action<Character_Behaviour> On_Character_Death;
         void Start()
         {
-            InvokeRepeating("Character_Regen",0.2f,0.2f);
+            InvokeRepeating("Character_Health_Regen",0.2f,0.2f);
+            InvokeRepeating("Character_Mana_Regen",0.2f,0.2f);
         }
         void Update()
         {
         
         }
 
-        private void Character_Regen()
+        private void Character_Health_Regen()
         {
-            if (regen_delay) return;
-            if (!GameManager.Instance.character_alive) return;
+            if (regen_delay)
+            {
+                return;
+            }
+            if (!GameManager.Instance.character_alive)
+            {
+                return;
+            }
             GameManager.Instance.character_health.Health_Regen(GameManager.Instance.character_health.regen / 5);
             UI_Manager.Instance.Update_Health_Text();
+        }
+        private void Character_Mana_Regen()
+        {
+            if (!GameManager.Instance.character_alive)
+            {
+                return;
+            }
+            GameManager.Instance.character_mana.Mana_Regen(GameManager.Instance.character_mana.mana_regen / 5);
+            UI_Manager.Instance.Update_Mana_Text();
         }
         public void Character_Takes_Damage(int damage)
         {
