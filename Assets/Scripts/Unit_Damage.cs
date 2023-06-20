@@ -39,8 +39,8 @@ public class Unit_Damage
     }
     public int Damage_Calculation()
     {
-        float hit_damage = UnityEngine.Random.Range(current_damage_min, current_damage_max);
-        if (crit_chance >= UnityEngine.Random.Range(1, 100))
+        float hit_damage = UnityEngine.Random.Range(current_damage_min, current_damage_max + 1);
+        if (crit_chance >= UnityEngine.Random.Range(1, 101))
         {
             float float_damage = hit_damage;
             return Convert.ToInt32(Mathf.Round(float_damage * current_crit_multiplier));

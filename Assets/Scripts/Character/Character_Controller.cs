@@ -8,7 +8,7 @@ namespace Character
     public class Character_Controller : MonoBehaviour
     {
         public float move_speed = 5f;
-        public Vector2 target;
+        public Vector2 move_target;
         private Vector2 aim_target;
         public float attack_speed = 1.5f;
         public bool can_attack = true;
@@ -22,7 +22,7 @@ namespace Character
         // Start is called before the first frame update
         void Start()
         {
-            target = transform.position;
+            move_target = transform.position;
         }
         private void OnEnable()
         {
@@ -40,15 +40,17 @@ namespace Character
             {
                 if (Input.GetMouseButton(0))
                 {
-                    target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    move_target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     moving = true;
                 }
-                if (moving && (Vector2)transform.position != target)
+                if (moving && (Vector2)transform.position != move_target)
                 {
-                    transform.position = Vector2.MoveTowards(transform.position, target, move_speed * Time.deltaTime);
+                    transform.position = Vector2.MoveTowards(transform.position, move_target, move_speed * Time.deltaTime);
                 }
                 else
+                {
                     moving = false;
+                }
                 if (Input.GetMouseButton(1))
                 {
                     if (can_attack)
@@ -59,7 +61,6 @@ namespace Character
                     }
                 }
             }
-
         }
         private void FixedUpdate()
         {
@@ -68,8 +69,8 @@ namespace Character
             rb.rotation = aim_angle;
             if (movement_ability_active)
             {
-                transform.position = Vector2.MoveTowards(transform.position, target, movement_ability_speed * Time.deltaTime);
-                if ((Vector2)transform.position == target)
+                transform.position = Vector2.MoveTowards(transform.position, move_target, movement_ability_speed * Time.deltaTime);
+                if ((Vector2)transform.position == move_target)
                 {
                     movement_ability_active = false;
                 }
@@ -78,12 +79,12 @@ namespace Character
         }
         public void Teleport()
         {
-            target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = new Vector2(target.x, target.y);
+            move_target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = new Vector2(move_target.x, move_target.y);
         }
         public void Movement_Ability(float speed)
         {
-            target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            move_target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             movement_ability_active = true;
             movement_ability_speed = speed;
         }

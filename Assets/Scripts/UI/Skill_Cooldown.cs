@@ -27,7 +27,6 @@ namespace UI
         private float next_ready_time;
         private float cooldown_time_left;
 
-        // Start is called before the first frame update
         void Start()
         {
             Initialize(skill, weapon_holder);

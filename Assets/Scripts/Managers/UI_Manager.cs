@@ -11,7 +11,8 @@ namespace UI
     public class UI_Manager : MonoBehaviour
     {
         public static UI_Manager Instance{ get; private set; }
-        public TMP_Text health_text;
+        public TMP_Text player_health_text;
+        public TMP_Text player_mana_text;
         public TMP_Text enemy_text;
         private GameObject enemy; 
         public float max_distance_for_enemy_bar = 50f;
@@ -19,7 +20,8 @@ namespace UI
         // Start is called before the first frame update
         void Start()
         {
-            health_text.text = "Player health: " + GameManager.Instance.character_health.health.ToString();
+            player_health_text.text = "Player health: " + GameManager.Instance.character_health.health.ToString();
+            player_mana_text.text = "Player mana: " + GameManager.Instance.character_mana.mana.ToString();
         }
     
         // Update is called once per frame
@@ -37,7 +39,11 @@ namespace UI
     
         public void Update_Health_Text()
         {
-            health_text.text = "Player health: " + GameManager.Instance.character_health.health.ToString();
+            player_health_text.text = "Player health: " + GameManager.Instance.character_health.health.ToString();
+        }
+        public void Update_Mana_Text()
+        {
+            player_mana_text.text = "Player mana: " + GameManager.Instance.character_mana.mana.ToString();
         }
         public void Update_Enemy_Bar(GameObject enemy)
         {
@@ -47,9 +53,14 @@ namespace UI
         private void Awake()
         {
             if(Instance != null && Instance != this)
+            {
                 Destroy(this);
+            }
             else
+            {
                 Instance = this;
+            }
+            DontDestroyOnLoad(this);
         }
     }
 }

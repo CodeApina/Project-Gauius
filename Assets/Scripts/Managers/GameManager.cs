@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public Character_Level_Handler character_level = new Character_Level_Handler(1,0,100);
     public Unit_Health character_health = new Unit_Health(100f,100f,2.5f);
     public Unit_Damage character_damage = new Unit_Damage(5,10,2f,10);
-    public Unit_Mana character_mana = new Unit_Mana(100f, 100f, 2.5f);
+    [SerializeField] public Unit_Mana character_mana = new Unit_Mana(100f, 100f, 2.5f);
     public bool character_alive = true;
 
     private void OnEnable()
@@ -44,6 +44,6 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-        character_alive = true;
+        DontDestroyOnLoad(this);
     }
 }

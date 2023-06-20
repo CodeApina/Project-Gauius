@@ -25,7 +25,7 @@ namespace Character
             switch (state)
             {
                 case Skill_State.ready:
-                    if (Keybinding_Manager.Instance.Get_Key_Down(Keybinding_Actions.Skill5))
+                    if (Keybinding_Manager.Instance.Get_Key_Down(Keybinding_Actions.Action_bar_slot_5))
                     {
                         skill.Innitialize(gameObject);
                         state = Skill_State.active;

@@ -11,9 +11,13 @@ public class Keybinding_Manager : MonoBehaviour
     private void Awake()
     {
         if (Instance != null && Instance != this)
+        {
             Destroy(this);
+        }
         else
+        {
             Instance = this;
+        }
         DontDestroyOnLoad(this);
     }
     public KeyCode Get_Key_For_Skill(Keybinding_Actions keybinding_actions)
