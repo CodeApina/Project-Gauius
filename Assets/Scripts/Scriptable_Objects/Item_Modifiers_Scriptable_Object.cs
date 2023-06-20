@@ -11,6 +11,7 @@ public class Item_Modifiers_Scriptable_Object : ScriptableObject
     public float min_value;
     public float max_value;
     public Affected_Atribute affected_atribute;
+    public float rank_multiplier;
 }
 public enum Affected_Atribute
 {
