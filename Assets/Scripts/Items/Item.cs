@@ -13,32 +13,46 @@ public class Item
         float item_level = monster_level;
         float rarity_decider = UnityEngine.Random.Range(1, 101);
         Item_Stats item_being_generated = Generate_Item_Type(item_level);
-        switch (rarity_decider)
+        Rarity_Weights poor = new Rarity_Weights("poor", 1);
+        Rarity_Weights normal = new Rarity_Weights("normal", 1);
+        Rarity_Weights rare = new Rarity_Weights("rare", 1);
+        Rarity_Weights legendary = new Rarity_Weights("legendary", 1);
+        Rarity_Weights[] weights =
         {
-            case < 25:
-                item_being_generated.rarity = "poor";
-                item_being_generated.min_modifier_number = 0;
-                item_being_generated.max_modifier_number = 0;
+            poor, normal, rare, legendary
+        };
+
+        switch (monster_level)
+        {
+            case <= 25:
+                poor.rarity_weight = 50;
+                normal.rarity_weight = 25;
+                rare.rarity_weight = 10;
+                legendary.rarity_weight = 2;
+                item_being_generated.rarity = Weighted_Rarity(weights).rarity;
                 break;
-            case < 50:
-                item_being_generated.rarity = "normal";
-                item_being_generated.min_modifier_number = 0;
-                item_being_generated.max_modifier_number = 2;
+            case <= 50:
+                poor.rarity_weight = 50;
+                normal.rarity_weight = 25;
+                rare.rarity_weight = 10;
+                legendary.rarity_weight = 2;
+                item_being_generated.rarity = Weighted_Rarity(weights).rarity;
                 break;
-            case < 75:
-                item_being_generated.rarity = "Rare";
-                item_being_generated.min_modifier_number = 1;
-                item_being_generated.max_modifier_number = 4;
+            case <= 75:
+                poor.rarity_weight = 50;
+                normal.rarity_weight = 25;
+                rare.rarity_weight = 10;
+                item_being_generated.rarity = Weighted_Rarity(weights).rarity;
                 break;
-            case < 100:
-                item_being_generated.rarity = "Legendary";
-                item_being_generated.min_modifier_number = 2;
-                item_being_generated.max_modifier_number = 6;
+            case <= 100:
+                poor.rarity_weight = 50;
+                normal.rarity_weight = 25;
+                rare.rarity_weight = 10;
+                legendary.rarity_weight = 2;
+                item_being_generated.rarity = Weighted_Rarity(weights).rarity;
                 break;
             default:
-                item_being_generated.rarity = "poor";
-                item_being_generated.min_modifier_number = 0;
-                item_being_generated.max_modifier_number = 0;
+                Debug.Log("Error rarity asignment failed");
                 break;
         }
 
@@ -46,6 +60,51 @@ public class Item
         return item_being_generated;
         
         
+    }
+    private Rarity_Weights Weighted_Rarity(Rarity_Weights[] weights)
+    {
+        int total_weight = 0;
+        foreach (Rarity_Weights w in weights)
+        {
+            total_weight += w.rarity_weight;
+        }
+        int random = UnityEngine.Random.Range(0, total_weight);
+        int total = 0;
+        for (int i = 0; i < weights.Length; i++)
+        {
+            total += weights[i].rarity_weight;
+            if (total > random)
+            {
+                return weights[i];
+            }
+            else
+            {
+                continue;
+            }
+        }
+        Debug.Log("Error Weighted_Rarity failed to roll rarity");
+        return Weighted_Rarity(weights);
+    }
+    private struct Rarity_Weights
+    {
+        string rarity_string;
+        int rarity_weight_int;
+        public string rarity
+        {
+            get { return rarity_string; }
+            set { rarity_string = value; }
+        }
+        public int rarity_weight
+        {
+            get { return rarity_weight_int; }
+            set { rarity_weight_int = value; }
+        }
+
+        public Rarity_Weights(string rarity, int rarity_weight)
+        {
+            rarity_string = rarity;
+            rarity_weight_int = rarity_weight;
+        }
     }
     public Item_Stats Generate_Item_Type(float item_level)
     {
@@ -199,6 +258,25 @@ public class Item
     }
     public Item_Stats Generate_Modifiers(Item_Stats item_being_generated, int modifier_number)
     {
+        switch (item_being_generated.rarity)
+        {
+            case "poor":
+                item_being_generated.min_modifier_number = 0;
+                item_being_generated.max_modifier_number = 0;
+                break;
+            case "normal":
+                item_being_generated.min_modifier_number = 1;
+                item_being_generated.max_modifier_number = 2;
+                break;
+            case "rare":
+                item_being_generated.min_modifier_number = 2;
+                item_being_generated.max_modifier_number = 4;
+                break;
+            case "legendary":
+                item_being_generated.min_modifier_number = 4;
+                item_being_generated.max_modifier_number = 6;
+                break;
+        }
         Debug.Log(item_being_generated.tags.ToString());
         List<Item_Modifiers_Scriptable_Object> modifiers_that_fit = new List<Item_Modifiers_Scriptable_Object>();
         foreach (Item_Modifiers_Scriptable_Object modifier in Loot_Manager.Instance.modifiers)
