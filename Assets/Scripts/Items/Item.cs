@@ -8,16 +8,18 @@ using System.Linq;
 
 public class Item
 {
+    Weighted_Rolls rolls = new Weighted_Rolls();
     public Item_Stats Generate_Item(float monster_level)
     {
         float item_level = monster_level;
         float rarity_decider = UnityEngine.Random.Range(1, 101);
         Item_Stats item_being_generated = Generate_Item_Type(item_level);
-        Rarity_Weights poor = new Rarity_Weights("poor", 1);
-        Rarity_Weights normal = new Rarity_Weights("normal", 1);
-        Rarity_Weights rare = new Rarity_Weights("rare", 1);
-        Rarity_Weights legendary = new Rarity_Weights("legendary", 1);
-        Rarity_Weights[] weights =
+        Weighted_Rolls.String_Weights poor = new Weighted_Rolls.String_Weights("poor", 1);
+        Weighted_Rolls.String_Weights normal = new Weighted_Rolls.String_Weights("normal", 1);
+        Weighted_Rolls.String_Weights rare = new Weighted_Rolls.String_Weights("rare", 1);
+        Weighted_Rolls.String_Weights legendary = new Weighted_Rolls.String_Weights("legendary", 1);
+        
+        Weighted_Rolls.String_Weights[] weights =
         {
             poor, normal, rare, legendary
         };
@@ -25,31 +27,31 @@ public class Item
         switch (monster_level)
         {
             case <= 25:
-                poor.rarity_weight = 50;
-                normal.rarity_weight = 25;
-                rare.rarity_weight = 10;
-                legendary.rarity_weight = 2;
-                item_being_generated.rarity = Weighted_Rarity(weights).rarity;
+                poor.weight = 50;
+                normal.weight = 25;
+                rare.weight = 10;
+                legendary.weight = 2;
+                item_being_generated.rarity = rolls.Weighted_String(weights).string_;
                 break;
             case <= 50:
-                poor.rarity_weight = 50;
-                normal.rarity_weight = 25;
-                rare.rarity_weight = 10;
-                legendary.rarity_weight = 2;
-                item_being_generated.rarity = Weighted_Rarity(weights).rarity;
+                poor.weight = 50;
+                normal.weight = 25;
+                rare.weight = 10;
+                legendary.weight = 2;
+                item_being_generated.rarity = rolls.Weighted_String(weights).string_;
                 break;
             case <= 75:
-                poor.rarity_weight = 50;
-                normal.rarity_weight = 25;
-                rare.rarity_weight = 10;
-                item_being_generated.rarity = Weighted_Rarity(weights).rarity;
+                poor.weight = 50;
+                normal.weight = 25;
+                rare.weight = 10;
+                item_being_generated.rarity = rolls.Weighted_String(weights).string_;
                 break;
             case <= 100:
-                poor.rarity_weight = 50;
-                normal.rarity_weight = 25;
-                rare.rarity_weight = 10;
-                legendary.rarity_weight = 2;
-                item_being_generated.rarity = Weighted_Rarity(weights).rarity;
+                poor.weight = 50;
+                normal.weight = 25;
+                rare.weight = 10;
+                legendary.weight = 2;
+                item_being_generated.rarity = rolls.Weighted_String(weights).string_;
                 break;
             default:
                 Debug.Log("Error rarity asignment failed");
@@ -61,51 +63,8 @@ public class Item
         
         
     }
-    private Rarity_Weights Weighted_Rarity(Rarity_Weights[] weights)
-    {
-        int total_weight = 0;
-        foreach (Rarity_Weights w in weights)
-        {
-            total_weight += w.rarity_weight;
-        }
-        int random = UnityEngine.Random.Range(0, total_weight);
-        int total = 0;
-        for (int i = 0; i < weights.Length; i++)
-        {
-            total += weights[i].rarity_weight;
-            if (total > random)
-            {
-                return weights[i];
-            }
-            else
-            {
-                continue;
-            }
-        }
-        Debug.Log("Error Weighted_Rarity failed to roll rarity");
-        return Weighted_Rarity(weights);
-    }
-    private struct Rarity_Weights
-    {
-        string rarity_string;
-        int rarity_weight_int;
-        public string rarity
-        {
-            get { return rarity_string; }
-            set { rarity_string = value; }
-        }
-        public int rarity_weight
-        {
-            get { return rarity_weight_int; }
-            set { rarity_weight_int = value; }
-        }
+    
 
-        public Rarity_Weights(string rarity, int rarity_weight)
-        {
-            rarity_string = rarity;
-            rarity_weight_int = rarity_weight;
-        }
-    }
     public Item_Stats Generate_Item_Type(float item_level)
     {
         int item_type_decider = UnityEngine.Random.Range(1,3);
