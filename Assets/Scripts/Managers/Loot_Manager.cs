@@ -1,13 +1,16 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Loot_Manager : MonoBehaviour
 {
     public static Loot_Manager Instance;
     public Item item = new Item();
-    public List<Item_Modifiers_Scriptable_Object> modifiers = new List<Item_Modifiers_Scriptable_Object>();
-
+    public Dictionary<int,Item_Modifiers_Scriptable_Object> modifier_dictionary = new Dictionary<int, Item_Modifiers_Scriptable_Object>();
+    public List<Item_Modifiers_Scriptable_Object> modifiers;
+    
     public List<Item_Stats> Generate_Loot(float monster_level)
     {
         float min_loot_amount = 1 * monster_level / 10;
@@ -34,11 +37,5 @@ public class Loot_Manager : MonoBehaviour
             Instance = this;
         }
         DontDestroyOnLoad(this);
-
-        foreach (Item_Modifiers_Scriptable_Object item_modifier in Resources.FindObjectsOfTypeAll(typeof(Item_Modifiers_Scriptable_Object)))
-        {
-            modifiers.Add(item_modifier);
-            
-        }
     }
 }

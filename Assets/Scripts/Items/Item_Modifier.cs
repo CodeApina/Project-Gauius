@@ -10,6 +10,7 @@ public class Item_Modifier
     float modifier_max_value;
     float modifier_min_value;
     float modifier_rank;
+    Affected_Atribute modifier_affected_tribute;
     public string name
     {
         get { return modifier_name; }
@@ -40,8 +41,13 @@ public class Item_Modifier
         get { return modifier_rank; }
         set { modifier_rank = value; }
     }
+    public Affected_Atribute affected_atribute
+    {
+        get { return modifier_affected_tribute; }
+        set { modifier_affected_tribute = value; }
+    }
 
-    public Item_Modifier(float rank, List<Item_Tag> tags, string name = "default", float value = 9911991199, float max_value = 9922992299, float min_value = 9900990099)
+    public Item_Modifier(float rank, List<Item_Tag> tags, Affected_Atribute affected_Atribute, string name = "default", float value = 9911991199, float max_value = 9922992299, float min_value = 9900990099)
     {
         modifier_name = name;
         modifier_value = value;

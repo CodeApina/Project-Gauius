@@ -203,20 +203,17 @@ public class Item
         List<Item_Modifiers_Scriptable_Object> modifiers_that_fit = new List<Item_Modifiers_Scriptable_Object>();
         foreach (Item_Modifiers_Scriptable_Object modifier in Loot_Manager.Instance.modifiers)
         {
-            int modifier_tag_matches = 0;
-            foreach (Item_Tag tag in item_being_generated.tags)
+            bool tag_missmatch = true;
+            foreach (Item_Tag tag in modifier.tags)
             {
-                foreach (Item_Tag modifier_tag in modifier.tags)
+                if (item_being_generated.tags.Contains(tag))
                 {
-                    if (modifier_tag == tag)
-                    {
-                        modifier_tag_matches++;
-                    }
+                    tag_missmatch = false;
                 }
-                if (modifier_tag_matches == item_being_generated.tags.Count)
-                {
-                    modifiers_that_fit.Add(modifier);
-                }
+            }
+            if (!tag_missmatch)
+            {
+                modifiers_that_fit.Add(modifier);
             }
         }
         if (modifiers_that_fit != null || modifiers_that_fit.Count >= 0) 
@@ -229,8 +226,9 @@ public class Item
                     Item_Modifiers_Scriptable_Object modifier = modifiers_that_fit[modifier_chooser];
                     float modifier_rank = item_being_generated.level;
                     float value = UnityEngine.Random.Range(modifier.min_value * modifier_rank, modifier.max_value * modifier_rank);
-                    Item_Modifier current_modifier = new Item_Modifier(modifier_rank, modifier.tags, modifier.name, value, modifier.max_value * modifier_rank, modifier.min_value * modifier_rank); ;
+                    Item_Modifier current_modifier = new Item_Modifier(modifier_rank, modifier.tags, modifier.affected_atribute, modifier.name, value, modifier.max_value * modifier_rank, modifier.min_value * modifier_rank); ;
                     item_being_generated.modifiers.Add(current_modifier);
+                    modifiers_that_fit.Remove(modifier);
                 }
                 else continue;
             }
