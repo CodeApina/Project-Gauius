@@ -1,8 +1,8 @@
 public enum Keybinding_Actions
 {
-    Skill1,
-    Skill2,
-    Skill3,
-    Skill4,
-    Skill5,
+    Action_bar_slot_1,
+    Action_bar_slot_2,
+    Action_bar_slot_3,
+    Action_bar_slot_4,
+    Action_bar_slot_5,
 }
