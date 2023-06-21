@@ -5,66 +5,12 @@ using UnityEngine;
 public class Armor_Item_Stats : Item_Stats 
 {
     protected string item_equip_slot;
-    protected enum type_for_modifiers
-    {
-        heavy_head_armor,
-        heavy_shoulder_armor,
-        heavy_chest_armor,
-        heavy_wrist_armor,
-        heavy_hand_armor,
-        heavy_waist_armor,
-        heavy_leg_armor,
-        heavy_feet_armor,
-        medium_head_armor,
-        medium_shoulder_armor,
-        medium_chest_armor,
-        medium_wrist_armor,
-        medium_hand_armor,
-        medium_waist_armor,
-        medium_leg_armor,
-        medium_feet_armor,
-        light_head_armor,
-        light_shoulder_armor,
-        light_chest_armor,
-        light_wrist_armor,
-        light_hand_armor,
-        light_waist_armor,
-        light_leg_armor,
-        light_feet_armor,
-        shield
-    }
-    public static readonly string[] types_armor =
-    {
-        "heavy-armor",
-        "medium-armor",
-        "light-armor"
-    };
-    public static readonly string[] types_equip_slots =
-    {
-        "head",
-        "chest",
-        "shoulders",
-        "hands",
-        "wrists",
-        "legs",
-        "waist",
-        "feet",
-        "off-hand"
-    };
     protected float item_armor_value;
 
     public float armor_value
     {
         get { return item_armor_value; }
         set { item_armor_value = value; }
-    }
-    public static string[] equip_slots
-    {
-        get { return types_equip_slots; }
-    }
-    public static string[] types
-    {
-        get { return types_armor; }
     }
     
     public string equip_slot

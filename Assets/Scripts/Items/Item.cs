@@ -12,7 +12,6 @@ public class Item
     public Item_Stats Generate_Item(float monster_level)
     {
         float item_level = monster_level;
-        float rarity_decider = UnityEngine.Random.Range(1, 101);
         Item_Stats item_being_generated = Generate_Item_Type(item_level);
         Weighted_Rolls.String_Weights poor = new Weighted_Rolls.String_Weights("poor", 1);
         Weighted_Rolls.String_Weights normal = new Weighted_Rolls.String_Weights("normal", 1);
