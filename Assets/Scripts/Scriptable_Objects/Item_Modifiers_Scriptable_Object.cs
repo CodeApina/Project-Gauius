@@ -15,17 +15,17 @@ public class Item_Modifiers_Scriptable_Object : ScriptableObject
 }
 public enum Affected_Atribute
 {
-    health,
+    health_flat,
     health_percent,
     health_regen,
-    mana,
+    mana_flat,
     mana_percent,
     mana_regen,
-    damage,
+    damage_flat,
     damage_percent,
-    armor,
+    armor_flat,
     armor_percent,
-    strength,
+    strength_flat,
     attack_speed,
     crit_chance,
     crit_multiplier
