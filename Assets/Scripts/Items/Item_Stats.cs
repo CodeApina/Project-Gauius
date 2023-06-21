@@ -14,6 +14,7 @@ public abstract class Item_Stats
     protected List<Item_Tag> item_tags;
     protected string item_rarity;
     protected string item_type;
+    public ScriptableObject model;
 
     public string name
     {

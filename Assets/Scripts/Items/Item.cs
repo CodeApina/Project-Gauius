@@ -111,6 +111,7 @@ public class Item
                     break;
                 default: break;
             }
+            Item_Model_Chooser(item_being_generated);
             return item_being_generated;
         }
         else if (item_type_decider == 2)
@@ -211,9 +212,55 @@ public class Item
                     break;
                 default: break;
             }
+            Item_Model_Chooser(item_being_generated);
             return item_being_generated;
         } 
         else return null;
+    }
+    public Item_Stats Item_Model_Chooser(Item_Stats item_being_generated)
+    {
+        if (item_being_generated.tags.Contains(Item_Tag.Weapon))
+        {
+            List<Weapon_Scriptable_Object> models_that_fit = new List<Weapon_Scriptable_Object>();
+            foreach (var model in Loot_Manager.Instance.weapon_models)
+            {
+                bool tag_missmatch = true;
+                foreach (Item_Tag tag in model.tags)
+                {
+                    if (item_being_generated.tags.Contains(tag))
+                    {
+                        tag_missmatch = false;
+                    }
+                }
+                if (!tag_missmatch)
+                {
+                    models_that_fit.Add(model);
+                }
+                item_being_generated.model = models_that_fit[UnityEngine.Random.Range(0, models_that_fit.Count - 1)];
+            }
+        }
+        else if (item_being_generated.tags.Contains(Item_Tag.Armor))
+        {
+            List<Armor_Scriptable_Object> models_that_fit = new List<Armor_Scriptable_Object>();
+            foreach (var model in Loot_Manager.Instance.armor_models)
+            {
+                bool tag_missmatch = true;
+                foreach (Item_Tag tag in model.tags)
+                {
+                    if (item_being_generated.tags.Contains(tag))
+                    {
+                        tag_missmatch = false;
+                    }
+                }
+                if (!tag_missmatch)
+                {
+                    models_that_fit.Add(model);
+                }
+                item_being_generated.model = models_that_fit[UnityEngine.Random.Range(0, models_that_fit.Count - 1)];
+            }
+        }
+        
+        return item_being_generated;
     }
     public Item_Stats Generate_Modifiers(Item_Stats item_being_generated, int modifier_number)
     {

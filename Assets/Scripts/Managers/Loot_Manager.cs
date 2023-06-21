@@ -8,7 +8,8 @@ public class Loot_Manager : MonoBehaviour
 {
     public static Loot_Manager Instance;
     public Item item = new Item();
-    public Dictionary<int,Item_Modifiers_Scriptable_Object> modifier_dictionary = new Dictionary<int, Item_Modifiers_Scriptable_Object>();
+    public List<Weapon_Scriptable_Object> weapon_models;
+    public List<Armor_Scriptable_Object> armor_models;
     public List<Item_Modifiers_Scriptable_Object> modifiers;
     
     public List<Item_Stats> Generate_Loot(float monster_level)
