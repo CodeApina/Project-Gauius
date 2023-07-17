@@ -19,8 +19,10 @@ MonoBehaviour:
   base_mana_cost: 10
   base_cooldown: 2
   base_duration: 0.5
-  min_base_damage: 5
-  max_base_damage: 10
+  level_multiplier: 0
+  skill_range: 0
+  min_base_damage: 50
+  max_base_damage: 100
   base_crit_chance: 10
   base_crit_multiplier: 2
   base_attack_speed: 1.5

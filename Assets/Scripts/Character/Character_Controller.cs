@@ -13,7 +13,7 @@ namespace Character
         public float attack_speed = 1.5f;
         public bool can_attack = true;
         [HideInInspector] public float fire_force = 40f;
-        [HideInInspector] public GameObject projectile_prefab;
+        public GameObject projectile_prefab;
         public Rigidbody2D rb;
         public Weapon weapon;
         private bool moving;
@@ -35,32 +35,37 @@ namespace Character
         // Update is called once per frame
         void Update()
         {
-            aim_target = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-            if (GameManager.Instance.character_alive && !movement_ability_active)
+            if (GameManager.Instance.character_alive)
             {
-                if (Input.GetMouseButton(0))
+                aim_target = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                if (GameManager.Instance.character_alive && !movement_ability_active)
                 {
-                    move_target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    moving = true;
-                }
-                if (moving && (Vector2)transform.position != move_target)
-                {
-                    transform.position = Vector2.MoveTowards(transform.position, move_target, move_speed * Time.deltaTime);
-                }
-                else
-                {
-                    moving = false;
-                }
-                if (Input.GetMouseButton(1))
-                {
-                    if (can_attack)
+                    if (Input.GetMouseButton(0))
                     {
-                        weapon.Fire(projectile_prefab, fire_force);
-                        can_attack = false;
-                        StartCoroutine(Attack_Delay());
+                        move_target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        moving = true;
+                    }
+                    if ((Vector2)transform.position == move_target)
+                    {
+                        moving = false;
+                    }
+
+                    if (Input.GetMouseButton(1))
+                    {
+                        if (can_attack)
+                        {
+                            weapon.Fire(projectile_prefab, fire_force);
+                            can_attack = false;
+                            StartCoroutine(Attack_Delay());
+                        }
+                    }
+                    if (Input.GetKeyDown(KeyCode.Space))
+                    {
+                        Loot_Manager.Instance.Generate_Loot(20);
                     }
                 }
             }
+            
         }
         private void FixedUpdate()
         {
@@ -75,6 +80,10 @@ namespace Character
                     movement_ability_active = false;
                 }
             }
+            if (moving && (Vector2)transform.position != move_target)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, move_target, move_speed * Time.deltaTime);
+            }
 
         }
         public void Teleport()
@@ -82,13 +91,27 @@ namespace Character
             move_target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector2(move_target.x, move_target.y);
         }
-        public void Movement_Ability(float speed)
+        public void Movement_Ability(float speed, float range, bool move_to_range)
         {
-            move_target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            movement_ability_active = true;
-            movement_ability_speed = speed;
+            Vector2 ability_target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            float distance = Vector2.Distance(transform.position, move_target);
+            if (distance > range && move_to_range)
+            {
+                move_target = (Vector2)transform.position + ability_target * (distance - range);
+                moving = true;
+                Wait_For_Range(range);
+                
+            }
+            if (distance <= range && move_to_range || !move_to_range)
+            {
+                movement_ability_active = true;
+                movement_ability_speed = speed;
+            }
         }
-
+        IEnumerator Wait_For_Range(float range)
+        {
+            yield return new WaitUntil(() => Vector2.Distance(transform.position,move_target) == range);
+        }
         private IEnumerator Attack_Delay()
         {
             yield return new WaitForSeconds(1 / attack_speed);

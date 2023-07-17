@@ -41,7 +41,6 @@ public class Unit_Health
         {
             current_health = 0;
         }
-        Debug.Log("Takes Damage: " + damage + current_health);
     }
     public void Heal_Unit(float heal_amount)
     {

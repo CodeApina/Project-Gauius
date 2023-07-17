@@ -18,6 +18,7 @@ namespace UI
         public TMP_Text mana_cost_number;
         public TMP_Text skill_name_text;
         public TMP_Text button_name_text;
+        public bool move_to_range;
 
         [SerializeField] private Skills_Scriptable_Object skill;
         [SerializeField] private GameObject weapon_holder;
@@ -29,6 +30,7 @@ namespace UI
 
         void Start()
         {
+            weapon_holder = GameManager.Instance.character;
             Initialize(skill, weapon_holder);
         }
 

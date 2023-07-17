@@ -19,4 +19,6 @@ MonoBehaviour:
   base_mana_cost: 10
   base_cooldown: 1
   base_duration: 0.5
+  level_multiplier: 0
+  skill_range: 20
   velocity: 30

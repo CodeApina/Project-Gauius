@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Room_Spawn
+  - Enemy_Spawn
+  - Rooms
+  - Wall
+  - Door
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -12,11 +18,11 @@ TagManager:
   - 
   - Water
   - UI
-  - player
+  - Ray_Cast_Enabled
   - player_projectile
-  - 
-  - 
-  - 
+  - enemy
+  - dead_enemy
+  - doors
   - 
   - 
   - 

@@ -14,6 +14,7 @@ public abstract class Item_Stats
     protected List<Item_Tag> item_tags;
     protected string item_rarity;
     protected string item_type;
+    protected Color item_color;
     public ScriptableObject model;
 
     public string name
@@ -65,5 +66,10 @@ public abstract class Item_Stats
     {
         get { return item_modifiers; }
         set { item_modifiers = value; }
+    }
+    public Color color
+    {
+        get { return item_color; }
+        set { item_color = value; }
     }
 }

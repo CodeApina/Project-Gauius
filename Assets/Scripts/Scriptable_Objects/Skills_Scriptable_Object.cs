@@ -11,6 +11,7 @@ public  abstract class Skills_Scriptable_Object : ScriptableObject
     public float base_cooldown;
     public float base_duration;
     public float level_multiplier;
+    public float skill_range;
 
     public abstract void Innitialize(GameObject parent);
     public abstract void Trigger_Skill();

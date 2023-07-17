@@ -36,8 +36,10 @@ namespace Character
         public void Level_Up()
         {
             var player_damage = GameManager.Instance.character_damage;
-            player_damage.damage_min = player_damage.damage_min * current_level;
-            player_damage.damage_max = player_damage.damage_max * current_level;
+            player_damage.damage_min = player_damage.damage_min * (1.25f * current_level);
+            player_damage.damage_max = player_damage.damage_max * (1.25f * current_level);
+            current_xp_to_next_level = current_xp * current_level;
+
         }
         public void Gain_Xp(int xp)
         {
@@ -47,6 +49,7 @@ namespace Character
                 current_level++;
                 OnLevelChange?.Invoke(this);
             }
+            Debug.Log("XP gained: " + xp + " XP to next level: " + (current_xp_to_next_level - current_xp));
         }
     }
 }

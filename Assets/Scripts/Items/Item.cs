@@ -5,73 +5,113 @@ using UnityEngine;
 using System.CodeDom.Compiler;
 using Unity.VisualScripting;
 using System.Linq;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
-public class Item
+public class Item : MonoBehaviour
 {
+    public Item_Stats stats;
+    public string rarity;
+
     Weighted_Rolls rolls = new Weighted_Rolls();
-    public Item_Stats Generate_Item(float monster_level)
+    void Start()
     {
-        float item_level = monster_level;
+    }
+    public Item_Stats Roll_Rarity(Item_Stats item_being_generated, Weighted_Rolls.String_Weights poor, Weighted_Rolls.String_Weights normal, Weighted_Rolls.String_Weights rare, Weighted_Rolls.String_Weights legendary)
+    {
+        Weighted_Rolls.String_Weights[] weights =
+        {
+            poor, normal, rare, legendary
+        };
+        item_being_generated.rarity = rolls.Weighted_String(weights).string_;
+        return item_being_generated;
+    }
+    public Item_Stats Generate_Item(float item_being_generated_level)
+    {
+        float item_level = item_being_generated_level;
         Item_Stats item_being_generated = Generate_Item_Type(item_level);
         Weighted_Rolls.String_Weights poor = new Weighted_Rolls.String_Weights("poor", 1);
         Weighted_Rolls.String_Weights normal = new Weighted_Rolls.String_Weights("normal", 1);
         Weighted_Rolls.String_Weights rare = new Weighted_Rolls.String_Weights("rare", 1);
         Weighted_Rolls.String_Weights legendary = new Weighted_Rolls.String_Weights("legendary", 1);
         
-        Weighted_Rolls.String_Weights[] weights =
-        {
-            poor, normal, rare, legendary
-        };
+        
 
-        switch (monster_level)
+        switch (item_being_generated_level)
         {
+            case <= 5:
+                poor.weight = 100;
+                normal.weight = 20;
+                rare.weight = 5;
+                legendary.weight = 1;
+                Roll_Rarity(item_being_generated, poor, normal, rare, legendary);
+                break;
             case <= 25:
                 poor.weight = 50;
                 normal.weight = 25;
                 rare.weight = 10;
                 legendary.weight = 2;
-                item_being_generated.rarity = rolls.Weighted_String(weights).string_;
+                Roll_Rarity(item_being_generated, poor, normal, rare, legendary);
                 break;
             case <= 50:
                 poor.weight = 50;
                 normal.weight = 25;
                 rare.weight = 10;
                 legendary.weight = 2;
-                item_being_generated.rarity = rolls.Weighted_String(weights).string_;
+                Roll_Rarity(item_being_generated, poor, normal, rare, legendary);
                 break;
             case <= 75:
                 poor.weight = 50;
                 normal.weight = 25;
                 rare.weight = 10;
-                item_being_generated.rarity = rolls.Weighted_String(weights).string_;
+                Roll_Rarity(item_being_generated, poor, normal, rare, legendary);
                 break;
             case <= 100:
                 poor.weight = 50;
                 normal.weight = 25;
                 rare.weight = 10;
                 legendary.weight = 2;
-                item_being_generated.rarity = rolls.Weighted_String(weights).string_;
+                Roll_Rarity(item_being_generated, poor, normal, rare, legendary);
                 break;
             default:
                 Debug.Log("Error rarity asignment failed");
                 break;
         }
-
+        rarity = item_being_generated.rarity;
+        switch (item_being_generated.rarity)
+        {
+            case "poor":
+                item_being_generated.color = Color.gray; break;
+            case "normal":
+                item_being_generated.color = Color.white; break;
+            case "rare":
+                item_being_generated.color= Color.blue; break;
+            case "legendary":
+                item_being_generated.color= Color.yellow; break;
+            default :
+                item_being_generated.color = Color.white; break;
+        }
         Generate_Modifiers(item_being_generated, UnityEngine.Random.Range(item_being_generated.min_modifier_number, item_being_generated.max_modifier_number));
+        Generate_Item_Name(item_being_generated);
         return item_being_generated;
         
         
     }
+
+    public Item_Stats Generate_Item_Name(Item_Stats item_being_generated)
+    {
+        item_being_generated.name = "default";
+        return item_being_generated;
+    }
     
 
-    public Item_Stats Generate_Item_Type(float item_level)
+    public Item_Stats Generate_Item_Type(float item_being_generated_level)
     {
         int item_type_decider = UnityEngine.Random.Range(1,3);
         if (item_type_decider == 1)
         {
             List<Item_Tag> tags = new List<Item_Tag>();
             List<Item_Modifier> modifiers = new List<Item_Modifier>();
-            Weapon_Item_Stats item_being_generated = new Weapon_Item_Stats(item_level, modifiers, tags);
+            Weapon_Item_Stats item_being_generated = new Weapon_Item_Stats(item_being_generated_level, Color.gray, modifiers, tags);
             item_being_generated.tags.Add(Item_Tag.Weapon);
             item_type_decider = UnityEngine.Random.Range(1, 4);
             switch (item_type_decider)
@@ -117,7 +157,7 @@ public class Item
         {
             List<Item_Tag> tags = new List<Item_Tag>();
             List<Item_Modifier> modifiers = new List<Item_Modifier>();
-            Armor_Item_Stats item_being_generated = new Armor_Item_Stats(item_level, modifiers, tags);
+            Armor_Item_Stats item_being_generated = new Armor_Item_Stats(item_being_generated_level, Color.gray, modifiers, tags);
             item_being_generated.tags.Add(Item_Tag.Armor);
             item_type_decider = UnityEngine.Random.Range(1, 4);
             switch (item_type_decider)
@@ -282,7 +322,6 @@ public class Item
                 item_being_generated.max_modifier_number = 6;
                 break;
         }
-        Debug.Log(item_being_generated.tags.ToString());
         List<Item_Modifiers_Scriptable_Object> modifiers_that_fit = new List<Item_Modifiers_Scriptable_Object>();
         foreach (Item_Modifiers_Scriptable_Object modifier in Loot_Manager.Instance.modifiers)
         {
@@ -357,10 +396,20 @@ public class Item
                             break;
                     }
                     float value = UnityEngine.Random.Range(modifier.min_value * modifier_rank, modifier.max_value * modifier_rank);
-                    Item_Modifier current_modifier = new Item_Modifier(modifier_rank, modifier.tags, modifier.affected_atribute, modifier.name, value, modifier.max_value * modifier_rank, modifier.min_value * modifier_rank); ;
-                    
-                    item_being_generated.modifiers.Add(current_modifier);
-                    modifiers_that_fit.Remove(modifier);
+                    Item_Modifier current_modifier = new Item_Modifier(modifier_rank, modifier.tags, modifier.affected_atribute, modifier.name, value, modifier.max_value * modifier_rank, modifier.min_value * modifier_rank);
+                    bool already_present = false;
+                    foreach (var mod in item_being_generated.modifiers)
+                    {
+                        if (mod.affected_atribute == current_modifier.affected_atribute)
+                        {
+                            already_present = true;
+                            break;
+                        }
+                    }
+                    if (!already_present)
+                    {
+                        item_being_generated.modifiers.Add(current_modifier);
+                    }
                 }
                 else continue;
             }

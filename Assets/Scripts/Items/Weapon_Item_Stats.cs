@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -37,7 +38,7 @@ public class Weapon_Item_Stats : Item_Stats
         set { base_attack_speed = value; }
     }
     
-    public Weapon_Item_Stats(float level, List<Item_Modifier> modifiers = null, List<Item_Tag> tags = null, string name = "default", int modifier_number = 112, int min_modifier_number = 111, int max_modifier_number = 112, float level_required = 112, string rarity = "default", float min_damage_number = 112f ,float max_damage_number = 112f , string damage_type = "default", string type = "default", float crit_chance = 0f, float attack_speed = 1.5f)
+    public Weapon_Item_Stats(float level, Color color, List<Item_Modifier> modifiers = null, List<Item_Tag> tags = null, string name = "default", int modifier_number = 112, int min_modifier_number = 111, int max_modifier_number = 112, float level_required = 112, string rarity = "default", float min_damage_number = 112f ,float max_damage_number = 112f , string damage_type = "default", string type = "default", float crit_chance = 0f, float attack_speed = 1.5f)
     {
         item_name = name;
         item_modifier_number = modifier_number;
@@ -52,5 +53,6 @@ public class Weapon_Item_Stats : Item_Stats
         base_max_damage_number = max_damage_number;
         base_crit_chance = crit_chance;
         base_attack_speed = attack_speed;
+        item_color = color;
     }
 }

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 351004da0f14a5342ae24a7962dc8dd3, type: 3}
+  m_Name: Weapon
+  m_EditorClassIdentifier: 
+  item_sprite: {fileID: -2413806693520163455, guid: 4ce7b6f20e3cf79459d8ee93c0aecc32, type: 3}
+  base_min_damage: 0
+  base_max_damage: 0
+  base_crit_chance: 0
+  base_attack_speed: 0
+  tags: 
+  weapon_controller: {fileID: 0}

@@ -13,11 +13,14 @@ public class Projectile_Behaviour : MonoBehaviour
             if (enemy.alive == true)
             {
                 int damage = GameManager.Instance.character_damage.Damage_Calculation();
-                enemy.Enemy_Takes_Damage(damage);
-                UI_Manager.Instance.Update_Enemy_Bar(collision.gameObject);
+                enemy.Enemy_Takes_Damage(damage, collision.gameObject);
+                Destroy(gameObject);
             }
-            
         }
-        Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+        }
+
     }
 }

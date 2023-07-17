@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Item_Controller_Armor : MonoBehaviour
 {
-    private Item item = new Item();
+    private Item item;
     public Armor_Item_Stats weapon_stats;
     public Armor_Scriptable_Object item_object;
     public Sprite item_sprite;

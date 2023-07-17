@@ -16,4 +16,5 @@ MonoBehaviour:
   tags: 010000000800000002000000
   min_value: 0
   max_value: 0
-  affected_atribute: 0
+  affected_atribute: 6
+  rank_multiplier: 0

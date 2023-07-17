@@ -18,7 +18,7 @@ public class Armor_Item_Stats : Item_Stats
         get { return item_equip_slot; }
         set { item_equip_slot = value; }
     }
-    public Armor_Item_Stats(float level, List<Item_Modifier> modifiers = null, List<Item_Tag> tags = null, string type = "default" , string name = "default", int modifier_number = 112, int min_modifier_number = 111, int max_modifier_number = 112, float level_required = 112f,string rarity = "default", string equip_slot = "default", float armor_value = 112f)
+    public Armor_Item_Stats(float level, Color color, List<Item_Modifier> modifiers = null, List<Item_Tag> tags = null, string type = "default" , string name = "default", int modifier_number = 112, int min_modifier_number = 111, int max_modifier_number = 112, float level_required = 112f,string rarity = "default", string equip_slot = "default", float armor_value = 112f)
     {
         item_name = name;
         item_modifier_number = modifier_number;
@@ -31,5 +31,6 @@ public class Armor_Item_Stats : Item_Stats
         item_tags = tags;
         item_equip_slot = equip_slot;
         item_armor_value = armor_value;
+        item_color = color;
     }
 }
