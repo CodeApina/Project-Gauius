@@ -41,6 +41,8 @@ public class Enemy_Spawner : MonoBehaviour
             var enemy = Instantiate(enemy_type,location, pack.transform.rotation ,pack.transform);
             enemy.GetComponent<Enemy_Behaviour>().level = area_level;
             enemy.GetComponent<Enemy_Behaviour>().loot = Loot_Manager.Instance.Generate_Loot(area_level);
+            enemy.GetComponentInChildren<MonoBehaviour>().enabled = false;
+            enemy.GetComponent<MonoBehaviour>().enabled = false;
         }
     }
 }

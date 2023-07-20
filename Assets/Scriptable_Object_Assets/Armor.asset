@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   base_armor_value: 0
   item_sprite: {fileID: 0}
-  tags: 
+  tags: 00000000
   armor_controller: {fileID: 0}

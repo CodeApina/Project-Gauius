@@ -7,23 +7,10 @@ public class Pack_Aggro : MonoBehaviour
 {
     protected bool agroed = false;
 
-    private void Update()
+    private void Child_Agro()
     {
-        foreach(Transform child in transform)
-        {
-            if (child.GetComponent<Enemy_Behaviour>().agroed == true)
-            {
-                agroed = true;
-            }
-            
-        }
-        if (agroed == true)
-        {
-            foreach (Transform child in transform)
-            {
-                child.GetComponent<Enemy_Behaviour>().agroed = true;
-            }
-        }
+        
+        BroadcastMessage("Agro");
         
         
     }

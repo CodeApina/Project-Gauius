@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3709399263304415768}
   - component: {fileID: 150240179779838225}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5601833094422523726}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Point_Of_Ray
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 410201165482548494}
   - component: {fileID: 4800477868423095171}
   - component: {fileID: 9149549563950468781}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -167,6 +167,8 @@ MonoBehaviour:
   player: {fileID: 0}
   distance: 0
   point_of_ray: {fileID: 6795308065613153043}
+  level: 0
+  loot: []
   alive: 1
   rb: {fileID: 9149549563950468781}
   agroed: 0

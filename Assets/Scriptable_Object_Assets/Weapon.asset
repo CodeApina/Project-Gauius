@@ -17,5 +17,5 @@ MonoBehaviour:
   base_max_damage: 0
   base_crit_chance: 0
   base_attack_speed: 0
-  tags: 
+  tags: 01000000
   weapon_controller: {fileID: 0}

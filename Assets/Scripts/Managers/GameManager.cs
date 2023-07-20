@@ -46,6 +46,6 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         DontDestroyOnLoad(this);
-        character = GameObject.Find("Player");
+        character = GameObject.FindGameObjectWithTag("Player");
     }
 }

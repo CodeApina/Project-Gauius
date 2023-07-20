@@ -26,7 +26,6 @@ namespace Enemy
         public Unit_Damage enemy_damage;
         private UI_Manager ui_manager;
         public bool agroed = false;
-        private Vector2 direction;
         public Vector2 angle;
 
         private void Start()
@@ -40,30 +39,37 @@ namespace Enemy
         }
         void Update()
         {
-            point_of_ray.transform.rotation = Quaternion.Euler(Vector3.forward * angle);
-            float angle_float = Vector2.Angle(point_of_ray.transform.position, (Vector2)player.transform.position);
-            angle = new Vector2(Mathf.Cos(angle_float * Mathf.Deg2Rad), Mathf.Sin(angle_float * Mathf.Deg2Rad)).normalized;
-            Debug.DrawLine(point_of_ray.transform.position, angle, Color.red);
-            if (alive && distance <= enemy.aggro_distance + 10)
-            {
-                agroed = Ray_Cast(angle);
-            }
-            if (player == null) 
+            if (player == null)
             {
                 player = GameManager.Instance.character;
             }
             distance = Vector2.Distance(transform.position, player.transform.position);
-            Vector2 direction = player.transform.position - transform.position;
-            direction.Normalize();
+            if(agroed)
+            {
+                SendMessageUpwards("Child_Agro");
+            }
+            if (!agroed)
+            {
+                point_of_ray.transform.rotation = Quaternion.Euler(Vector3.forward * angle);
+                float angle_float = Vector2.Angle(point_of_ray.transform.position, (Vector2)player.transform.position);
+                angle = new Vector2(Mathf.Cos(angle_float * Mathf.Deg2Rad), Mathf.Sin(angle_float * Mathf.Deg2Rad)).normalized;
+                Debug.DrawLine(point_of_ray.transform.position, angle, Color.red);
+                if (distance <= enemy.aggro_distance + 10)
+                {
+                    agroed = Ray_Cast(angle);
+                    
+                }
+            }
+            
         }
         private void FixedUpdate()
         {
-            if (agroed && alive)
+            if (agroed)
             {
                 transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, enemy.move_speed * Time.deltaTime);
                 transform.rotation = Quaternion.Euler(Vector3.forward * angle);
             }
-            if (!alive || !agroed)
+            if (!agroed)
             {
                 rb.velocity = Vector3.zero;
                 transform.position = transform.position;
@@ -76,10 +82,6 @@ namespace Enemy
             // array of angles and foreach for each, one angle for diagonals and one for horizontals and verticals?
             bool value = false;
             RaycastHit2D hit = Physics2D.Raycast(point_of_ray.transform.position, angle, enemy.aggro_distance, 1 << LayerMask.NameToLayer("Ray_Cast_Enabled"));
-            if (agroed)
-            {
-                return agroed;
-            }
             if(hit.collider != null)
             {
                 if (hit.collider.gameObject.CompareTag("Player"))
@@ -90,12 +92,22 @@ namespace Enemy
             }
             return value;
         }
+
+        public void Agro()
+        {
+            agroed = true;
+        }
         public void Enemy_Takes_Damage(int damage, GameObject enemy)
         {
+            if (!agroed)
+            {
+                agroed = true;
+                SendMessageUpwards("Child_Agro");
+            }
             UI_Manager.Instance.Update_Enemy_Bar(enemy);
             enemy_health.Damage_Unit(damage);
             ui_manager.Update_Enemy_Bar(gameObject);
-            if (alive && enemy_health.health <= 0)
+            if (enemy_health.health <= 0)
             {
                 Die();
             }
@@ -132,11 +144,12 @@ namespace Enemy
         }
         void Die()
         {
+            alive = false;
+            gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
             On_Enemy_Death?.Invoke(this);
             GetComponent<BoxCollider2D>().enabled = false;
             GameManager.Instance.character_level.Gain_Xp(enemy_xp);
             Loot_Manager.Instance.Drop_Loot(loot, gameObject);
-            alive = false;
         }
     }
 }

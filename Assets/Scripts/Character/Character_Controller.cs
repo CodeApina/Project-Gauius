@@ -50,14 +50,11 @@ namespace Character
                         moving = false;
                     }
 
-                    if (Input.GetMouseButton(1))
+                    if (Input.GetMouseButton(1) && can_attack)
                     {
-                        if (can_attack)
-                        {
-                            weapon.Fire(projectile_prefab, fire_force);
-                            can_attack = false;
-                            StartCoroutine(Attack_Delay());
-                        }
+                        weapon.Fire(projectile_prefab, fire_force);
+                        can_attack = false;
+                        StartCoroutine(Attack_Delay());
                     }
                     if (Input.GetKeyDown(KeyCode.Space))
                     {

@@ -100,7 +100,6 @@ public class Dungeon_Generator : MonoBehaviour
                     var new_room = Instantiate(rooms[random_room].room, new Vector2(i * offset.x, -j * offset.y), Quaternion.identity, transform).GetComponent<Room_Behaviour>();
                     rooms[random_room].is_spawned = true;
                     new_room.UpdateRoom(board[i + j * size.x].status);
-
                     new_room.name += " " + i + "-" + j;
                 }
                 
