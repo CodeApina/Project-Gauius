@@ -1357,6 +1357,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 678606945}
   m_CullTransparentMesh: 1
+--- !u!4 &737436944 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4012281197859157748, guid: 4649eb1c68efa8b4cab88bad54a528e8, type: 3}
+  m_PrefabInstance: {fileID: 1794151069}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &783647840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1943,6 +1948,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ui_element: {fileID: 1053610426199235587, guid: d9e47e71bfa87684cb7397660d97dd73, type: 3}
+  item_base: {fileID: 0}
   weapon_models: []
   armor_models: []
   modifiers:
@@ -2328,6 +2334,87 @@ MonoBehaviour:
   player_mana_text: {fileID: 2004780431}
   enemy_text: {fileID: 1858993370}
   max_distance_for_enemy_bar: 50
+--- !u!1 &1612163085
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1612163086}
+  - component: {fileID: 1612163088}
+  - component: {fileID: 1612163087}
+  m_Layer: 0
+  m_Name: GameObject_Activator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1612163086
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612163085}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 737436944}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &1612163087
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612163085}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 40
+--- !u!114 &1612163088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612163085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c958abb8275aa42a0036c3fad7ea7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trigger_collider: {fileID: 1612163087}
 --- !u!1 &1740838407
 GameObject:
   m_ObjectHideFlags: 0
@@ -2507,7 +2594,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4012281197859157748, guid: 4649eb1c68efa8b4cab88bad54a528e8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1612163086}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4649eb1c68efa8b4cab88bad54a528e8, type: 3}
 --- !u!1 &1858993368

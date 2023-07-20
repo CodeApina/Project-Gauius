@@ -30,7 +30,7 @@ public class Ranged_Scriptable_Object : Skills_Scriptable_Object
             
         }
     }
-    public override void Trigger_Skill()
+    public override void Trigger_Skill(Skills_Scriptable_Object skill)
     {
         if (GameManager.Instance.character_mana.mana >= base_mana_cost) 
         {

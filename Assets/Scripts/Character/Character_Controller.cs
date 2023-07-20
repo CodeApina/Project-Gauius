@@ -83,31 +83,42 @@ namespace Character
             }
 
         }
-        public void Teleport()
+        public void Movement_Ability(Skills_Scriptable_Object skill,float speed, float range, bool move_to_range)
         {
-            move_target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = new Vector2(move_target.x, move_target.y);
-        }
-        public void Movement_Ability(float speed, float range, bool move_to_range)
-        {
+            // TODO: FIX THIS
             Vector2 ability_target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            float distance = Vector2.Distance(transform.position, move_target);
-            if (distance > range && move_to_range)
+            if (skill.tags.Contains(Item_Tag.Dash))
             {
-                move_target = (Vector2)transform.position + ability_target * (distance - range);
-                moving = true;
-                Wait_For_Range(range);
                 
+                float distance = Vector2.Distance(transform.position, ability_target);
+                if (distance > range && move_to_range)
+                {
+                    move_target = ((Vector2)transform.position + ability_target * (distance - range));
+                    moving = true;
+                    var original_move_target = move_target;
+                    while (range <= Vector2.Distance(transform.position, move_target))
+                    {
+                        if (move_target != original_move_target)
+                        {
+                            break;
+                        }
+                    }
+
+                }
+                if ((distance <= range && move_to_range) || !move_to_range)
+                {
+
+                    move_target = ability_target;
+                    movement_ability_active = true;
+                    movement_ability_speed = speed;
+                }
             }
-            if (distance <= range && move_to_range || !move_to_range)
+            if (skill.tags.Contains(Item_Tag.Teleport))
             {
-                movement_ability_active = true;
-                movement_ability_speed = speed;
+                move_target = ability_target;
+                transform.position = new Vector2(move_target.x, move_target.y);
             }
-        }
-        IEnumerator Wait_For_Range(float range)
-        {
-            yield return new WaitUntil(() => Vector2.Distance(transform.position,move_target) == range);
+            
         }
         private IEnumerator Attack_Delay()
         {

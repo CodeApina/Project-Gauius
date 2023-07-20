@@ -25,5 +25,7 @@ public enum Item_Tag
     Mace,
     Bow,
     Wand,
-    Staff
+    Staff,
+    Dash,
+    Teleport
 }

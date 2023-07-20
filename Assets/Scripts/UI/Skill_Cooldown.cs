@@ -89,7 +89,7 @@ namespace UI
 
             //skill_audio_source.clip = skill.skill_audio;
             //skill_audio_source.Play();
-            skill.Trigger_Skill();
+            skill.Trigger_Skill(skill);
             }
     }
 }

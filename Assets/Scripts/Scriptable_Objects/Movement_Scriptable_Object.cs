@@ -20,8 +20,8 @@ public class Movement_Scriptable_Object : Skills_Scriptable_Object
         }
         
     }
-    public override void Trigger_Skill()
+    public override void Trigger_Skill(Skills_Scriptable_Object skill)
     {
-        controller.Movement_Ability(velocity, skill_range, button.move_to_range);
+        controller.Movement_Ability(skill,velocity, skill_range, move_to_range);
     }
 }
