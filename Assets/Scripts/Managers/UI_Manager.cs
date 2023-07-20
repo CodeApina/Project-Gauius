@@ -20,7 +20,7 @@ namespace UI
         // Start is called before the first frame update
         void Start()
         {
-            player_health_text.text = "Player health: " + GameManager.Instance.character_health.health.ToString();
+            player_health_text.text = "Player enemy_health: " + GameManager.Instance.character_health.health.ToString();
             player_mana_text.text = "Player mana: " + GameManager.Instance.character_mana.mana.ToString();
         }
     
@@ -39,7 +39,7 @@ namespace UI
     
         public void Update_Health_Text()
         {
-            player_health_text.text = "Player health: " + GameManager.Instance.character_health.health.ToString();
+            player_health_text.text = "Player enemy_health: " + GameManager.Instance.character_health.health.ToString();
         }
         public void Update_Mana_Text()
         {

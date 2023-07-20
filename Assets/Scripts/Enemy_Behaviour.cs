@@ -21,7 +21,7 @@ namespace Enemy
         public List<GameObject> loot;
         public static event Action<Enemy_Behaviour> On_Enemy_Death;
         public bool alive = true;
-        int enemy_xp;
+        public int enemy_xp_reward;
         public Rigidbody2D rb;
         public Unit_Damage enemy_damage;
         private UI_Manager ui_manager;
@@ -116,14 +116,6 @@ namespace Enemy
         public void Spawn()
         {
             player = GameObject.Find("Player");
-            loot = Loot_Manager.Instance.Generate_Loot(level);
-            enemy_health = new Unit_Health(enemy.health * enemy.level, enemy.max_health * enemy.level, enemy.health_regen * enemy.level);
-            enemy_damage = new Unit_Damage(enemy.min_damage * enemy.level, enemy.max_damage * enemy.level, enemy.crit_multiplier, enemy.crit_chance * enemy.level);
-            enemy_xp = enemy.xp_reward * enemy.level;
-            if (loot.Count != 0)
-            {
-                Debug.Log(loot);
-            }
         }
         // When hit's player
         private void OnCollisionStay2D(Collision2D collision)
@@ -148,7 +140,7 @@ namespace Enemy
             gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
             On_Enemy_Death?.Invoke(this);
             GetComponent<BoxCollider2D>().enabled = false;
-            GameManager.Instance.character_level.Gain_Xp(enemy_xp);
+            GameManager.Instance.character_level.Gain_Xp(enemy_xp_reward);
             Loot_Manager.Instance.Drop_Loot(loot, gameObject);
         }
     }
