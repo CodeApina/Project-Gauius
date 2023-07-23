@@ -5,6 +5,7 @@ using TMPro;
 using Enemy;
 using Character;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -14,7 +15,10 @@ namespace UI
         public TMP_Text player_health_text;
         public TMP_Text player_mana_text;
         public TMP_Text enemy_text;
-        private GameObject enemy; 
+        public Image enemy_bar;
+        public GameObject enemy_bar_parent;
+        [SerializeField]
+        public GameObject enemy; 
         public float max_distance_for_enemy_bar = 50f;
     
         // Start is called before the first frame update
@@ -31,8 +35,13 @@ namespace UI
             {
                 if (Vector2.Distance(enemy.transform.position, GameObject.Find("Player").transform.position) >= max_distance_for_enemy_bar)
                 {
+
                     enemy_text.text = string.Empty;
                 }
+            }
+            if (enemy == null || !enemy.GetComponent<Enemy_Behaviour>().alive)
+            {
+                enemy_bar_parent.SetActive(false);
             }
                 
         }
@@ -47,8 +56,9 @@ namespace UI
         }
         public void Update_Enemy_Bar(GameObject enemy)
         {
-
-            enemy_text.text = enemy.name + "<br>" + enemy.GetComponent<Enemy_Behaviour>().enemy_health.health.ToString();
+            enemy_bar_parent.SetActive(true);
+            enemy_bar.fillAmount = enemy.GetComponent<Enemy_Behaviour>().enemy_health.health / enemy.GetComponent<Enemy_Behaviour>().enemy_health.max_health;
+            enemy_text.text = enemy.name;
         }
         private void Awake()
         {

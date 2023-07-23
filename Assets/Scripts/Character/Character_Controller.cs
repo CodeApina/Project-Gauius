@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Character
@@ -18,6 +19,7 @@ namespace Character
         public Weapon weapon;
         private bool moving;
         private bool movement_ability_active = false;
+        private bool movement_ability_available = false;
         private float movement_ability_speed;
         // Start is called before the first frame update
         void Start()
@@ -94,17 +96,18 @@ namespace Character
                 if (distance > range && move_to_range)
                 {
                     moving = true;
-                    Vector2 aim_direction = aim_target;
-                    // Angle seems to be wrong
-                    float aim_angle = Mathf.Atan2(aim_direction.y, aim_direction.x) * Mathf.Rad2Deg - 90f;
-                    float x = Mathf.Cos(aim_angle);
-                    float y = Mathf.Sin(aim_angle);
-                    Vector2 original_move_target = new Vector2(x,y) * range;
+                    Vector2 direction = (ability_target - (Vector2)transform.position).normalized;
+                    Vector2 original_move_target = (Vector2)transform.position + direction * range;
                     move_target = original_move_target;
 
-                    Wait(original_move_target);
-
-                    distance = Vector2.Distance(transform.position, original_move_target);
+                    StartCoroutine(Wait(original_move_target));
+                    if (movement_ability_available)
+                    {
+                        move_target = ability_target;
+                        movement_ability_active = true;
+                        movement_ability_speed = speed;
+                    }
+                    
                 }
                 if ((distance <= range && move_to_range) || !move_to_range)
                 {
@@ -129,11 +132,14 @@ namespace Character
 
         private IEnumerator Wait(Vector2 original_move_target)
         {
+            Debug.Log("Started Wait");
             if (move_target != original_move_target)
             {
                 yield break;
             }
-            yield return new WaitUntil(() => (Vector2)transform.position == move_target);
+            yield return new WaitUntil(() => Vector2.Distance(original_move_target, transform.position) == 0);
+            movement_ability_available = true;
+            Debug.Log("Ending Wait");
         }
 
 

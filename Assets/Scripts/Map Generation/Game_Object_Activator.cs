@@ -36,11 +36,20 @@ public class Game_Object_Activator : MonoBehaviour
 
     public void Set_GameObject_Status(Collider2D collider, bool state)
     {
-        if (collider != null && collider.TryGetComponent<Enemy_Behaviour>(out Enemy_Behaviour behaviour))
+        if (collider != null)
         {
-            collider.GetComponentInChildren<MonoBehaviour>().enabled = state;
-            collider.GetComponent<MonoBehaviour>().enabled = state;
+            if (collider.TryGetComponent<Enemy_Behaviour>(out Enemy_Behaviour behaviour))
+            {
+                collider.GetComponentInChildren<MonoBehaviour>().enabled = state;
+                collider.GetComponent<MonoBehaviour>().enabled = state;
+            }
+            if (collider.TryGetComponent<Item>(out Item item))
+            {
+                collider.GetComponentInChildren<MonoBehaviour>().enabled = state;
+                collider.GetComponent<MonoBehaviour>().enabled= state;
+            }
         }
+        
         
     }
 

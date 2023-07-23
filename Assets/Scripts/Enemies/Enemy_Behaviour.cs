@@ -50,7 +50,7 @@ namespace Enemy
                 agro_message_sent = true;
 
             }
-            else
+            if (!agroed)
             {
                 float distance = Vector2.Distance(transform.position, player.transform.position);
                 direction = (player.transform.position - transform.position).normalized;
@@ -106,6 +106,7 @@ namespace Enemy
                 SendMessageUpwards("Child_Agro");
             }
             UI_Manager.Instance.Update_Enemy_Bar(enemy);
+            UI_Manager.Instance.enemy = gameObject;
             enemy_health.Damage_Unit(damage);
             ui_manager.Update_Enemy_Bar(gameObject);
             if (enemy_health.health <= 0)
@@ -141,7 +142,7 @@ namespace Enemy
             gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
             On_Enemy_Death?.Invoke(this);
             GetComponent<BoxCollider2D>().enabled = false;
-            GameManager.Instance.character_level.Gain_Xp(enemy_xp_reward);
+            GameManager.Instance.character.GetComponent<Character_Level_Handler>().Gain_Xp(enemy_xp_reward);
             Loot_Manager.Instance.Drop_Loot(loot, gameObject);
         }
     }

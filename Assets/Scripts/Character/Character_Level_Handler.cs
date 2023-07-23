@@ -1,38 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
 namespace Character
 {
-    public class Character_Level_Handler
+    public class Character_Level_Handler : MonoBehaviour
     {
-        int current_level;
-        int current_xp;
-        int current_xp_to_next_level;
+        public int current_level;
+        public float current_xp;
+        public float current_xp_to_next_level;
+        public float last_level_xp = 0;
         public static event Action<Character_Level_Handler> OnLevelChange;
 
-        public int level
-        {
-            get { return current_level; }
-            set { current_level = value; }
-        }
-        public int xp
-        {
-            get { return current_xp; }
-            set { current_xp = value; }
-        }
-        public int xp_to_next_level
-        {
-            get { return current_xp_to_next_level; }
-            set { current_xp_to_next_level = value; }
-        }
-        public Character_Level_Handler(int level, int xp, int xp_to_next_level)
-        {
-            current_level = level;
-            current_xp = xp;
-            current_xp_to_next_level = xp_to_next_level;
-        }
         public void Level_Up()
         {
             var player_damage = GameManager.Instance.character_damage;
@@ -46,10 +27,10 @@ namespace Character
             current_xp += xp;
             if (current_xp >= current_xp_to_next_level)
             {
+                last_level_xp = current_xp;
                 current_level++;
-                OnLevelChange?.Invoke(this);
+                current_xp_to_next_level = current_xp_to_next_level * current_level;
             }
-            Debug.Log("XP gained: " + xp + " XP to next level: " + (current_xp_to_next_level - current_xp));
         }
     }
 }

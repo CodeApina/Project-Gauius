@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Pack_Aggro : MonoBehaviour
 {
-    protected bool agroed = false;
+    [SerializeField]
+    private bool agroed = false;
 
     private void Child_Agro()
     {

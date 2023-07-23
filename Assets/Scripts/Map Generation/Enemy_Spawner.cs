@@ -8,16 +8,18 @@ public class Enemy_Spawner : MonoBehaviour
 {
     public List<GameObject> enemy_types = new List<GameObject>();
     public GameObject pack;
+    public GameObject enemies;
     // Start is called before the first frame update
     void Start()
     {
+        enemies = GameObject.Find("Enemies");
         Spawn_Enemies(1);
     }
 
     void Spawn_Enemies(int area_level)
     {
         GameObject enemy_type = enemy_types[UnityEngine.Random.Range(0, enemy_types.Count)];
-        pack = Instantiate(pack, transform.position, transform.rotation);
+        pack = Instantiate(pack, transform.position, transform.rotation, enemies.transform);
         int pack_size;
         switch (area_level)
         {

@@ -7,6 +7,7 @@ using UnityEngine;
 public class Loot_Manager : MonoBehaviour
 {
     public static Loot_Manager Instance;
+    public GameObject items;
     public GameObject ui_element;
     public GameObject item_base;
     public List<Weapon_Scriptable_Object> weapon_models;
@@ -29,6 +30,7 @@ public class Loot_Manager : MonoBehaviour
             ui.transform.parent = item_being_generated.transform;
             ui.GetComponent<Item_UI>().image.color = item_being_generated.GetComponent<Item>().stats.color;
             ui.GetComponent<Item_UI>().name_field.text = item_being_generated.GetComponent<Item>().stats.name;
+            item_being_generated.transform.parent = items.transform;
             item_being_generated.SetActive(false);
             loot.Add(item_being_generated);
         }
