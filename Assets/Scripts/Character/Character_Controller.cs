@@ -85,7 +85,7 @@ namespace Character
         }
         public void Movement_Ability(Skills_Scriptable_Object skill,float speed, float range, bool move_to_range)
         {
-            // TODO: FIX THIS
+            // TODO: FIX THIS  // Randomly switches direction, and won't use the ability when at range to do so
             Vector2 ability_target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (skill.tags.Contains(Item_Tag.Dash))
             {
@@ -93,17 +93,18 @@ namespace Character
                 float distance = Vector2.Distance(transform.position, ability_target);
                 if (distance > range && move_to_range)
                 {
-                    move_target = ((Vector2)transform.position + ability_target * (distance - range));
                     moving = true;
-                    var original_move_target = move_target;
-                    while (range <= Vector2.Distance(transform.position, move_target))
-                    {
-                        if (move_target != original_move_target)
-                        {
-                            break;
-                        }
-                    }
+                    Vector2 aim_direction = aim_target;
+                    // Angle seems to be wrong
+                    float aim_angle = Mathf.Atan2(aim_direction.y, aim_direction.x) * Mathf.Rad2Deg - 90f;
+                    float x = Mathf.Cos(aim_angle);
+                    float y = Mathf.Sin(aim_angle);
+                    Vector2 original_move_target = new Vector2(x,y) * range;
+                    move_target = original_move_target;
 
+                    Wait(original_move_target);
+
+                    distance = Vector2.Distance(transform.position, original_move_target);
                 }
                 if ((distance <= range && move_to_range) || !move_to_range)
                 {
@@ -124,6 +125,15 @@ namespace Character
         {
             yield return new WaitForSeconds(1 / attack_speed);
             can_attack = true;
+        }
+
+        private IEnumerator Wait(Vector2 original_move_target)
+        {
+            if (move_target != original_move_target)
+            {
+                yield break;
+            }
+            yield return new WaitUntil(() => (Vector2)transform.position == move_target);
         }
 
 

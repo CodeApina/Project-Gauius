@@ -13,9 +13,7 @@ namespace Enemy
     {
         public Enemy_Scriptable_Object enemy;
         public GameObject player;
-        [SerializeField] private float distance;
         public Unit_Health enemy_health;
-        public GameObject point_of_ray;
         public int level;
         [SerializeField]
         public List<GameObject> loot;
@@ -26,7 +24,9 @@ namespace Enemy
         public Unit_Damage enemy_damage;
         private UI_Manager ui_manager;
         public bool agroed = false;
-        public Vector2 angle;
+        [SerializeField]
+        private bool agro_message_sent = false;
+        public Vector2 direction;
 
         private void Start()
         {
@@ -43,20 +43,22 @@ namespace Enemy
             {
                 player = GameManager.Instance.character;
             }
-            distance = Vector2.Distance(transform.position, player.transform.position);
-            if(agroed)
+            
+            if(!agro_message_sent && agroed)
             {
                 SendMessageUpwards("Child_Agro");
+                agro_message_sent = true;
+
             }
-            if (!agroed)
+            else
             {
-                point_of_ray.transform.rotation = Quaternion.Euler(Vector3.forward * angle);
-                float angle_float = Vector2.Angle(point_of_ray.transform.position, (Vector2)player.transform.position);
-                angle = new Vector2(Mathf.Cos(angle_float * Mathf.Deg2Rad), Mathf.Sin(angle_float * Mathf.Deg2Rad)).normalized;
-                Debug.DrawLine(point_of_ray.transform.position, angle, Color.red);
+                float distance = Vector2.Distance(transform.position, player.transform.position);
+                direction = (player.transform.position - transform.position).normalized;
+                Debug.DrawRay(transform.position, direction, Color.green);
+
                 if (distance <= enemy.aggro_distance + 10)
                 {
-                    agroed = Ray_Cast(angle);
+                    agroed = Ray_Cast(direction);
                     
                 }
             }
@@ -67,21 +69,20 @@ namespace Enemy
             if (agroed)
             {
                 transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, enemy.move_speed * Time.deltaTime);
-                transform.rotation = Quaternion.Euler(Vector3.forward * angle);
+                transform.rotation = Quaternion.Euler(Vector3.forward * direction);
             }
-            if (!agroed)
+            else
             {
                 rb.velocity = Vector3.zero;
-                transform.position = transform.position;
             }
 
 
         }
-        bool Ray_Cast(Vector3 angle)
+        bool Ray_Cast(Vector2 angle)
         {
             // array of angles and foreach for each, one angle for diagonals and one for horizontals and verticals?
             bool value = false;
-            RaycastHit2D hit = Physics2D.Raycast(point_of_ray.transform.position, angle, enemy.aggro_distance, 1 << LayerMask.NameToLayer("Ray_Cast_Enabled"));
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, angle, enemy.aggro_distance, 1 << LayerMask.NameToLayer("Ray_Cast_Enabled"));
             if(hit.collider != null)
             {
                 if (hit.collider.gameObject.CompareTag("Player"))

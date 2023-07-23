@@ -20,7 +20,7 @@ MonoBehaviour:
   base_cooldown: 1
   base_duration: 0.5
   level_multiplier: 0
-  skill_range: 5
+  skill_range: 2
   tags: 1a000000
   move_to_range: 1
   velocity: 30

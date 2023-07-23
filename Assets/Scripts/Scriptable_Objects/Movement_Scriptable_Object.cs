@@ -22,6 +22,7 @@ public class Movement_Scriptable_Object : Skills_Scriptable_Object
     }
     public override void Trigger_Skill(Skills_Scriptable_Object skill)
     {
+        GameManager.Instance.character_mana.Using_Mana(base_mana_cost);
         controller.Movement_Ability(skill,velocity, skill_range, move_to_range);
     }
 }
